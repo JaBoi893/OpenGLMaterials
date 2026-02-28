@@ -1,5 +1,5 @@
 # Welcome to the lighting chapter in the LearnOpenGL tutorial!
-### This is an OpenGL built with GLFW, GLAD, and GLM
+### This is an OpenGL project built with GLFW, GLAD, and GLM
 
 
 #### This lesson is designed to teach the math behind how light is simulated to imitate the real world.
