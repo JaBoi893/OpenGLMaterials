@@ -161,9 +161,6 @@ int main() {
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
 
-    // Light Cube's position
-    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-
 	while (!glfwWindowShouldClose(window)) {
         // input
         // -----
@@ -180,6 +177,10 @@ int main() {
 
         // Clear the depth buffer every frame
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // Light Cube's position
+        float time = glfwGetTime();
+        glm::vec3 lightPos(cos(time) * 1.3, -1.0f, sin(time) * 1.3);
   
         // activate shader
         lightingShader.use();
@@ -197,6 +198,7 @@ int main() {
         lightingShader.setMat4("view", view);
         lightingShader.setMat4("projection", projection);
         lightingShader.setVec3("lightPos", lightPos);
+        lightingShader.setVec3("viewPos", camera.Position); 
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
