@@ -20,4 +20,4 @@
 #### Build CMake with cmake -B build
 #### Build the program with 'cmake --build build'
 #### Run the executable with './build/Debug/Lighting.exe'
-##### Note that the executable's location may be different for you, mine happens to be in the './build/Debug' directory.
+##### *Note that the executable's location may be different for you, mine happens to be in the './build/Debug' directory.*
