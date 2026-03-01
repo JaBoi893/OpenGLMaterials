@@ -6,6 +6,7 @@
 
 #include <shaders/shader_s.h>
 #include <camera/camera.h>
+#include <resources/materialproperties.h>
 
 #include <string>
 #include <iostream>
@@ -24,6 +25,8 @@ float pitch = 0.0f;
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = 400, lastY = 300;
 bool firstMouse = true;
+
+int materialIterator = 0;
 
 int main() {
 
@@ -184,7 +187,6 @@ int main() {
   
         // activate shader
         lightingShader.use();
-        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
         lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
     
         glm::mat4 projection = glm::mat4(1.0f);
@@ -199,6 +201,16 @@ int main() {
         lightingShader.setMat4("projection", projection);
         lightingShader.setVec3("lightPos", lightPos);
         lightingShader.setVec3("viewPos", camera.Position); 
+
+        int materialID = materialIterator % (sizeof(materials) / sizeof(Material));
+        lightingShader.setVec3("material.ambient", materials[materialID].ambient);
+        lightingShader.setVec3("material.diffuse", materials[materialID].diffuse);
+        lightingShader.setVec3("material.specular", materials[materialID].specular);
+        lightingShader.setFloat("material.shininess", materials[materialID].shininess);
+
+        lightingShader.setVec3("light.ambient",  0.2f, 0.2f, 0.2f);
+        lightingShader.setVec3("light.diffuse",  0.5f, 0.5f, 0.5f); // darken diffuse light a bit
+        lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f); 
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -248,6 +260,8 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+        materialIterator++;
 
     if ((glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && camera.Jumping == 0))
         camera.Jumping = 1;
